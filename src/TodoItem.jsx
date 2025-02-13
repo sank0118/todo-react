@@ -1,15 +1,42 @@
-const TodoItem = () => {
+import PropTypes from "prop-types";
+import { useState } from "react";
+import TodoForm from "./TodoForm";
+
+const TodoItem = ({ todos, setTodos, payload, index }) => {
+  const onDelete = () =>
+    setTodos((prev) => prev.filter((item) => item !== payload));
+
+  const [isEditing, setIsEditing] = useState(false);
+  const editHandler = () => setIsEditing((prev) => !prev);
+
   return (
     <li>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel, corrupti,
-        a, eius architecto consequatur modi libero odio voluptate dicta sit odit
-        cupiditate et. Quibusdam at dolorem maiores vitae, incidunt eum.
-      </p>
-      <button>수정</button>
-      <button>삭제</button>
+      {isEditing ? (
+        <TodoForm
+          isEditing={isEditing}
+          oncancel={editHandler}
+          payload={payload}
+          setTodos={setTodos}
+          todos={todos}
+        />
+      ) : (
+        <>
+          <p>
+            {index + 1}.{payload}
+          </p>
+          <button onClick={editHandler}>수정</button>
+          <button onClick={onDelete}>삭제</button>
+        </>
+      )}
     </li>
   );
 };
 
 export default TodoItem;
+
+TodoItem.PropTypes = {
+  todos: PropTypes.array,
+  setTodos: PropTypes.func,
+  payload: PropTypes.string,
+  index: PropTypes.number,
+};

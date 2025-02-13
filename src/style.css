@@ -16,6 +16,9 @@ form {
   column-gap: 10px;
   padding: 30px;
 }
+ul form {
+  padding: 0;
+}
 form div {
   display: flex;
   flex-direction: column;
@@ -34,9 +37,11 @@ form input {
   padding: 0 10px;
   outline: none;
 }
+
 form input:focus {
   border-color: royalblue;
 }
+
 form button {
   height: 40px;
   border-radius: 4px;

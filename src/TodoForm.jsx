@@ -12,23 +12,45 @@ const TodoForm = ({ payload, isEditing, todos, setTodos, oncancel }) => {
     e.preventDefault();
 
     if (todo.length === 0) {
-      alert("");
+      alert("아무것도 입력되지 않았습니다.");
       return;
     }
+
     const foundTodo = todos.find((item) => item === todo);
     if (foundTodo) {
-      alert("");
+      alert("중복된 값입니다.");
       return;
     }
+
+    setTodos((prev) => {
+      let copy = [...prev];
+
+      if (isEditing) {
+        const index = todos.findIndex((item) => item === payload);
+        if (index > 0) {
+          copy[index] = todo;
+        }
+      } else {
+        copy.unshift(todo);
+      }
+
+      return copy;
+    });
+    alert(isEditing ? " 수정되었습니다" : "추가되었습니다.");
   };
 
   return (
     <form onSubmit={onSubmit}>
       <div>
         <label htmlFor="item">장 볼 물건</label>
-        <input type="text" id="item" onChange={onChange} />
+        <input type="text" id="item" value={todo} onChange={onChange} />
       </div>
-      <button>추가</button>
+      <button>{isEditing ? "수정" : "추가"}</button>
+      {isEditing && (
+        <button type="button" onClick={oncancel}>
+          취소
+        </button>
+      )}
     </form>
   );
 };
